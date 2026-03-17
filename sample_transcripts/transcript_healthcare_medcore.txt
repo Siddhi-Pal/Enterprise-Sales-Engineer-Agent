@@ -1,0 +1,37 @@
+Client Discovery Call — MedCore Health Systems
+Date: March 17, 2026
+Attendees:
+  - Dr. Farouk Al-Rashid, Chief Medical Information Officer — MedCore Health Systems
+  - Neha Joshi, Director of IT — MedCore Health Systems
+  - [Sales Engineer] — Enterprise Integration Team
+
+---
+
+[Sales Engineer]: Dr. Al-Rashid, thank you for joining us. Can you start by giving us an overview of MedCore and the challenges you're facing?
+
+Dr. Al-Rashid: Of course. MedCore runs 9 hospitals and 6 outpatient clinics across the UAE and Saudi Arabia. The fundamental problem we have is that our clinical data is completely fragmented. Each hospital site has its own EHR system. We have three hospitals on Epic, two on Cerner, and the remaining four sites are on a legacy system called iPatient, which is essentially a custom-built Oracle Forms application from around 2005. None of these talk to each other.
+
+[Sales Engineer]: What's the practical impact of that for clinicians day to day?
+
+Dr. Al-Rashid: It's significant. When a patient is referred from one of our clinics to a hospital, the receiving doctor has no access to their history. Lab results, discharge summaries, medication lists — none of it transfers. Clinicians spend an enormous amount of time on the phone tracking down records or making clinical decisions with incomplete information. We estimate our physicians waste about 2.5 hours per day on this problem.
+
+Neha Joshi: From an IT perspective, we also have serious issues with our radiology setup. Each site has its own PACS — some are Agfa, one is a Sectra system — and there's no way to view images remotely. If a surgeon in Dubai wants to review a scan taken in our Riyadh facility, they have to physically request a CD to be couriered. In 2026. It's extraordinary.
+
+[Sales Engineer]: Are there any compliance or regulatory pressures on top of this?
+
+Dr. Al-Rashid: Absolutely. The Dubai Health Authority and Saudi Ministry of Health are both moving toward mandating health data interoperability by end of 2026. We need to be NABIDH compliant in Dubai and connected to the Nphies network in Saudi Arabia. Both of these require HL7 FHIR R4 as the data exchange standard. Our current systems can't produce FHIR resources natively — everything would have to be transformed.
+
+Neha Joshi: And we have a patient safety issue that's becoming urgent. Our pharmacy systems — we use JAC in some sites and Meditech in others — have no cross-site visibility. We've had two near-miss duplicate prescription incidents in the last six months. That is our absolute highest priority.
+
+[Sales Engineer]: What's your budget and timeline looking like for this initiative?
+
+Dr. Al-Rashid: The board has approved a healthcare digital transformation budget of approximately ₹26.5 Crore over 18 months. We need the pharmacy safety layer live within 4 months — that's non-negotiable after the incidents. The full interoperability platform has to be operational before the regulatory deadlines, which gives us until October 2026.
+
+Neha Joshi: The key decision makers are Dr. Al-Rashid for clinical requirements, myself for technical architecture, and our Group CEO Dr. Hassan Al-Mansoori who controls the budget sign-off. He'll want a detailed proposal including an implementation roadmap and references from similar healthcare projects.
+
+[Sales Engineer]: We have deep experience with exactly this scenario — HL7 FHIR integration engines, PACS consolidation, cross-site medication safety checks, and regulatory compliance for health interoperability. We'll design a phased architecture that hits your pharmacy safety deadline first.
+
+Dr. Al-Rashid: That's exactly the approach we need. Please include NABIDH and Nphies integration specifics in the proposal if possible.
+
+---
+[End of Call]

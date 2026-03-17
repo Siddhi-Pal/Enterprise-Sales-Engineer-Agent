@@ -1,0 +1,36 @@
+Client Meeting Transcript
+Company: Bharat Auto Components Pvt. Ltd.
+Meeting Type: Sales Discovery Call
+Participants: Suresh Kulkarni (Managing Director, Bharat Auto), Prashant Joshi (VP – IT & Systems, Bharat Auto), [Sales Engineer]
+
+---
+
+[Sales Engineer]: Thank you for the time, Mr. Kulkarni, Mr. Joshi. I'd love to start with the big picture — where is Bharat Auto Components today, and what's keeping you up at night?
+
+Suresh Kulkarni: We are a Tier-1 supplier to Maruti Suzuki, Hyundai India, and Hero MotoCorp. We manufacture precision transmission components across our three plants in Chakan, Hosur, and Manesar. Our annual revenue is around ₹420 Crore. We've invested heavily in our physical infrastructure — the machines are state of the art. But our digital infrastructure is frankly embarrassing. We're running SAP ECC from 2008 with so many customisations that even our SAP partner is scared to touch it.
+
+Prashant Joshi: The ECC system has 53 custom Z-transactions built over 15 years. Every time we try to upgrade or even apply a patch, something breaks. So we've been frozen. And the bigger problem is that the system doesn't reflect reality on the shop floor even slightly. Shop floor data goes into SAP the next morning after paper entries by data-entry operators. Our production managers are running shifts based on data that is 8 to 16 hours old.
+
+[Sales Engineer]: Tell me about the shop floor specifically.
+
+Prashant Joshi: We have 84 CNC machines across three plants. We have no MES system whatsoever. No real-time OEE tracking. Machine downtime is logged manually after it occurs. We had 6 unplanned breakdowns last month across the Chakan plant alone, each averaging about 4 hours. Our maintenance team is completely reactive — they fix when it breaks. No predictive capability.
+
+Suresh Kulkarni: The financial impact is significant. For every hour of unplanned downtime on the Maruti line, we face a potential penalty of ₹8 to ₹12 Lakh depending on the component. And Maruti has already sent us a formal written notice about delivery SLA violations this quarter.
+
+[Sales Engineer]: What about your OEM connectivity — how do you handle purchase orders and delivery schedules from Maruti and Hyundai?
+
+Prashant Joshi: It's embarrassing to say out loud, but it's email and Excel. Maruti sends us a PDF delivery schedule. Our planning team manually re-enters it into SAP. Hyundai actually has an EDI portal but we can't connect to it — we just download the data and enter it manually. Both Maruti and Hyundai have told us that vendors who cannot support EDI connectivity by Q2 next year will be de-listed from preferred supplier status.
+
+[Sales Engineer]: Quality — how are you managing inspection and defect tracking?
+
+Prashant Joshi: We have 4 CMM machines for quality measurement. The output goes into a proprietary Zeiss software that's completely isolated. Quality data does not flow into SAP at all. We manually update quality rejection rates in a spreadsheet monthly. We had a quality escape at Hyundai last quarter — defective components reached their assembly line — and it nearly cost us the contract. If we'd had real-time quality integration, we'd have caught the batch deviation hours earlier.
+
+[Sales Engineer]: What does success look like for you?
+
+Suresh Kulkarni: I want to know what's happening on my shop floor right now — not yesterday. I want to predict machine breakdowns before they happen. I want EDI connectivity with my customers. And I want the quality data in my ERP in real time, not in a monthly spreadsheet.
+
+Prashant Joshi: From a technology perspective, we need to get off ECC to S/4HANA — it's unavoidable. We need an MES layer connecting to the machines. We need EDI with at least Maruti and Hyundai. And we need the CMM quality systems integrated into SAP QM.
+
+[Sales Engineer]: Timeline and budget?
+
+Suresh Kulkarni: EDI is the most urgent — that has a hard deadline of Q2 next year or we risk supplier status. S/4HANA migration ideally within 12 to 14 months. MES and machine connectivity in parallel as much as possible. Budget approved by the board is ₹15 Crore to ₹20 Crore for the full programme. Decision makers are myself, Prashant on the technology side, and our CFO Mr. Hemant Rao who controls the capex approval.

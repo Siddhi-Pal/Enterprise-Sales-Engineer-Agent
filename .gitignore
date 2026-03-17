@@ -1,0 +1,35 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# .gitignore — Sales Engineer AI Agent
+# ─────────────────────────────────────────────────────────────────────────────
+
+# API keys — NEVER commit secrets
+.streamlit/secrets.toml
+
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# FAISS index (auto-rebuilt on first run)
+faiss_index/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment files
+.env
+.env.*
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Logs
+*.log

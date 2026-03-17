@@ -1,0 +1,36 @@
+Company: NovaPay Financial Services
+Industry: Fintech / Digital Payments
+Region: North America
+
+Problem:
+NovaPay was struggling with a fragmented payment infrastructure that relied on 7 different legacy systems, each built on separate technology stacks with no unified API layer. This resulted in transaction failures exceeding 12% during peak loads (Black Friday, end-of-month payroll cycles), a 48-hour average reconciliation window, and compliance reporting that required manual effort from a team of 5 analysts every week. Their mobile app experienced latency of 4–6 seconds per transaction, leading to high cart abandonment rates (38%) and customer churn.
+
+Tech Stack (Before):
+- Core banking: IBM AS/400 mainframe (COBOL-based)
+- Payment gateway: Custom-built PHP 5.6 monolith (circa 2010)
+- Database: Oracle 11g (on-premise)
+- Fraud detection: Rule-based engine in Java (no ML)
+- Mobile backend: REST APIs over Apache Tomcat
+- Reporting: Manual Excel exports + Tableau dashboards
+- Infrastructure: On-premise data centers in 2 locations
+
+Solution:
+We designed and implemented a unified API gateway layer using Kong API Gateway, deployed on AWS. The core banking integration was handled via a custom AS/400 adapter that translated COBOL data structures to JSON in real time. A new microservices layer was built using Python FastAPI and deployed on AWS ECS (Fargate) for auto-scaling. PostgreSQL on RDS replaced Oracle for transactional data, with Redis for sub-millisecond caching. The fraud detection engine was upgraded to a real-time ML model using AWS SageMaker, trained on 3 years of transaction history. For reconciliation, we built an automated pipeline using Apache Kafka for event streaming and Apache Spark for batch processing, reducing the reconciliation window from 48 hours to under 2 hours. The mobile backend was re-platformed on AWS Lambda with API Gateway, reducing average transaction latency to under 400ms.
+
+Integration Strategy:
+- AS/400 to modern stack: IBM MQ → Kafka bridge with custom COBOL-to-JSON transformer
+- Legacy Oracle to PostgreSQL: AWS DMS (Database Migration Service) with zero-downtime migration
+- Fraud ML model: Deployed as a sidecar microservice on ECS, integrated via internal REST call per transaction
+- Monitoring: AWS CloudWatch + Grafana dashboards for real-time observability
+
+Result:
+- Transaction failure rate dropped from 12% to 0.3%
+- Reconciliation time reduced from 48 hours to 1.8 hours
+- Mobile transaction latency reduced from 5.2 seconds to 380ms
+- Cart abandonment rate dropped from 38% to 11%
+- Compliance reporting automated: 5-analyst team redeployed to value-add projects
+- Infrastructure cost reduced by 34% (on-prem to AWS transition)
+- System now handles 10,000 TPS (transactions per second) during peak loads
+
+Timeline: 9 months (3 phases: API layer → Microservices migration → ML fraud detection)
+Team Size: 12 engineers (4 backend, 2 data engineers, 2 DevOps, 2 ML engineers, 1 architect, 1 PM)

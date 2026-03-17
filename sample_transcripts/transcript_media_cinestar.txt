@@ -1,0 +1,38 @@
+Client Meeting Transcript
+Company: CineStar OTT Platform (CineStar Digital India Pvt. Ltd.)
+Meeting Type: Sales Discovery Call
+Participants: Arvind Sharma (CEO, CineStar Digital), Kavya Reddy (Head of Engineering, CineStar), [Sales Engineer]
+
+---
+
+[Sales Engineer]: Welcome, and thank you for joining. I've done some research on CineStar — could you give me the internal view of where things stand today?
+
+Arvind Sharma: CineStar has been around for 6 years. We have 4.8 million paid subscribers and about 11 million registered free-tier users across India, Nepal, and the UAE diaspora market. We're primarily focused on South Indian content — Telugu, Tamil, Kannada — which is our differentiator. The challenge is that our platform was built by our in-house team in 2019 and was never designed for the scale we've reached.
+
+Kavya Reddy: The platform architecture is a Rails monolith on three EC2 instances. Video is transcoded using FFmpeg scripts on dedicated servers — it takes anywhere from 4 to 9 hours to publish a new movie or series episode after upload. For a live sports event or award ceremony, which we do increasingly, we've had situations where the stream was running on a single Wowza server and went down when concurrent viewers exceeded 15,000.
+
+[Sales Engineer]: Tell me about the content and recommendation side.
+
+Kavya Reddy: Recommendation is essentially absent. The homepage is curated manually by our content team every Monday. There's no personalisation — a user who watches only family dramas gets the same homepage as someone who only watches action. Our 30-day churn on paid subscribers is 61%, which everyone agrees is too high, and we believe irrelevant content discovery is a major driver.
+
+Arvind Sharma: The content licensing piece is a serious operational risk. We license content from production houses and distributors — 340 content licensing agreements. These are tracked in an Excel sheet. We had two incidents in the past year where content was still streaming after the license had expired. One of those is now in legal dispute with a producer. If we can't solve the licensing management problem, we're going to face more of these.
+
+[Sales Engineer]: What about video quality and accessibility for diverse network conditions?
+
+Kavya Reddy: Our video delivery uses a single CDN — currently Akamai. We don't do adaptive bitrate streaming. We deliver a fixed quality stream, which means users in rural areas or on mobile data during peak hours have a terrible experience — buffering, dropouts. We've been losing subscribers in Tier 2 and Tier 3 cities specifically for this reason. We have user complaints data to back this up.
+
+Arvind Sharma: And there's zero DRM on our content. We know of at least two Telegram channels distributing our premium content pirated. The production houses whose content we carry have been asking for 12 months when we're going to implement proper content protection. It's a contractual obligation we're behind on.
+
+[Sales Engineer]: How is subscription billing managed?
+
+Kavya Reddy: We have Razorpay integrated for payments, but subscription management is custom code. We've had multiple incidents of users being locked out after successful payment because of webhook processing failures. Failed payment retry logic doesn't exist — if a renewal fails, the user just gets a generic error. We estimate we're losing ₹12 to ₹15 Lakh monthly in recoverable failed renewals that we're not retrying.
+
+[Sales Engineer]: What's your vision for 12 months from now?
+
+Arvind Sharma: A platform that can handle 3 to 5 lakh concurrent live stream viewers for major events. Content-to-publish time under 30 minutes. Real personalisation that reduces churn. Proper DRM so we stay credible with our content partners. And a licensing management system so we're never accidentally streaming expired content again.
+
+Kavya Reddy: From engineering: modern video pipeline with adaptive streaming and multi-CDN. ML recommendation system. DRM implementation. Billing reliability. And ideally we decouple from the Rails monolith starting with video and subscription services.
+
+[Sales Engineer]: Timeline and budget?
+
+Arvind Sharma: The live streaming reliability and DRM are most urgent — 3 months. The full platform modernisation over 9 to 12 months. Budget is ₹10 Crore to ₹13 Crore. Myself for business approval, Kavya on the technical side, and our board member and investor Ms. Deepa Krishnan will want to be briefed on the architecture approach before we finalise the contract.

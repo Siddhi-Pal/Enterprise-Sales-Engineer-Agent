@@ -1,0 +1,39 @@
+Company: StreamVista Media Pvt. Ltd.
+Industry: Media & OTT / Video Streaming
+Region: India (Operations across South Asia)
+
+Problem:
+StreamVista, an Indian OTT platform with 6.2 million subscribers across India, Sri Lanka, and Bangladesh, was running a homegrown video platform built in 2018. The content ingest pipeline required 6–8 hours to transcode and publish a new episode after upload, making it impossible to live-up breaking news and sports highlights within SLA windows. The recommendation algorithm was purely popularity-based (top-10 lists), contributing to a 67% churn rate within the first 30 days of subscription. Concurrent live stream capacity was capped at 22,000 viewers — during the IPL season, the platform crashed when 180,000 fans attempted to watch simultaneously. Content licensing management was tracked in Excel spreadsheets, with 3 instances of accidentally streaming content past its license expiry in the past year, creating legal exposure. The subscription billing system was a custom PHP script called via cron job nightly, causing failures during daylight saving changes and resulting in ₹18 Lakh in incorrectly billed or missed renewals annually. There was no Content Security/DRM protection against piracy.
+
+Tech Stack (Before):
+- Video transcoding: FFmpeg scripts on dedicated Linux servers (manual job queue)
+- CDN: Single CDN vendor (Akamai) with no multi-CDN failover
+- Recommendation: Popularity ranking (no personalisation)
+- Live streaming: Wowza Streaming Engine on single server cluster
+- Billing: Custom PHP cron-based subscription billing
+- DRM: None (plain MP4/HLS delivery)
+- License management: Excel spreadsheets
+- Analytics: Google Analytics (page-level only, no video analytics)
+
+Solution:
+We re-platformed StreamVista on a cloud-native video infrastructure on AWS. Content ingest and transcoding was rebuilt using AWS MediaConvert with automated pipelines triggered by S3 events, reducing time-to-publish from 6–8 hours to 18 minutes for VOD content. A multi-CDN strategy was implemented using Cloudflare + Akamai with AWS CloudFront as backup, with automatic failover based on latency metrics, eliminating single-CDN dependency. Live streaming was migrated to AWS IVS (Interactive Video Service) with AWS MediaLive for broadcast-grade encoding, tested to support 500,000+ concurrent viewers. A personalised recommendation engine was built using collaborative filtering + content-based filtering (Python/PySpark on EMR), trained on viewing history, completion rates, and search behaviour collected via Kinesis. DRM was implemented using AWS Elemental MediaPackage with Widevine + FairPlay + PlayReady multi-DRM via Axinom. Subscription billing was migrated to Chargebee (SaaS) with Razorpay integration, replacing the unreliable PHP cron system. A digital rights management module was built on PostgreSQL tracking license windows per content asset with automated content takedown when licenses expired, with alerting 30 days prior.
+
+Integration Strategy:
+- Content ingest: S3 upload → EventBridge → Step Functions orchestration → MediaConvert → multi-CDN origin
+- DRM: MediaPackage + Axinom DRM licence server; entitlement API per subscriber session
+- Multi-CDN: DNS-based routing via Cloudflare with health checks; fallback to CloudFront in <30 seconds
+- Billing: Chargebee webhooks → internal entitlement service → PostgreSQL → CDN token invalidation on churn
+- Analytics: Video.js player instrumentation → Kinesis Data Streams → Redshift → Tableau dashboards
+
+Result:
+- Time-to-publish (VOD): 6–8 hours → 18 minutes
+- Live stream capacity: 22,000 → 500,000+ concurrent viewers tested
+- 30-day subscriber churn reduced from 67% to 41% within 3 months of ML recommendation go-live
+- Zero license compliance incidents since DRM + license tracker launch
+- Billing accuracy: ₹18 Lakh annual loss eliminated; <0.1% billing error rate
+- CDN failover: 3 automatic failovers recorded in first 6 months, zero user-visible outages
+- Piracy incidents (reported) reduced by 78% after multi-DRM implementation
+
+Timeline: 10 months (Phase 1: Transcoding + CDN; Phase 2: Live + DRM; Phase 3: Recommendations + Billing)
+Team Size: 14 engineers (3 backend, 2 streaming/media specialists, 2 data/ML engineers, 1 DevOps, 1 security, 1 frontend, 1 QA, 1 architect, 1 PM)
+Budget: ₹9.5 Crore (total engagement)

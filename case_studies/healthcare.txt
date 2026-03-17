@@ -1,0 +1,37 @@
+Company: MediLink Hospital Network
+Industry: Healthcare / Digital Health
+Region: United Kingdom (12 hospitals, 3 private clinics)
+
+Problem:
+MediLink's 15 facilities operated on 4 different Electronic Health Record (EHR) systems (Epic, Cerner, a legacy NHS system, and a custom in-house system), none of which could communicate with each other. Clinicians wasted an average of 2.1 hours per day manually accessing multiple systems to get a complete patient picture. Patient referrals between MediLink facilities took 3–5 business days due to manual fax-based processes. The radiologyy department's PACS (Picture Archiving and Communication System) was completely isolated, meaning referring doctors could not view scans remotely. A critical patient safety issue arose when duplicate prescriptions were issued because the pharmacy system had no way to cross-check records across sites. Additionally, the group had no way to aggregate clinical outcomes data for research or NHS compliance reporting, leading to a £2.3M annual cost for external reporting consultants.
+
+Tech Stack (Before):
+- EHR Systems: Epic (5 hospitals), Cerner (4 hospitals), NHS Lorenzo (2 hospitals), custom in-house Java EHR (3 clinics)
+- Radiology: Agfa IMPAX PACS (isolated, on-premise per site)
+- Pharmacy: Meditech (3 sites), JAC Pharmacy (remaining sites)
+- Appointment scheduling: Paper-based + per-site portal (no unified booking)
+- Communication: Fax, internal email, phone
+- Reporting: Manual data exports + external consultants
+
+Solution:
+We implemented a Health Information Exchange (HIE) platform using the HL7 FHIR R4 standard as the interoperability backbone. A centralized FHIR API server (HAPI FHIR on AWS) was deployed, with custom integration engines (Mirth Connect) translating HL7 v2 and proprietary formats from all 4 EHR systems into FHIR resources in real time. A Unified Patient Record Portal was built as a React web app and a React Native mobile app, giving clinicians a 360-degree patient view across all sites. The PACS integration was achieved via a DICOMweb gateway (Orthanc) that indexed all radiology studies into a centralized viewer (OHIF Viewer) accessible from any site. For medication safety, a real-time duplicate prescription detection service was built using Python + Redis, cross-checking all active prescriptions across the FHIR store before dispensing. A Clinical Analytics Data Warehouse was built on Snowflake, populated via automated FHIR-to-Snowflake pipelines, enabling self-service NHS outcome reporting via Tableau.
+
+Integration Strategy:
+- EHR Integration: Mirth Connect integration engines at each site translate HL7 v2 ADT/ORM/ORU messages → FHIR R4 resources → Central HAPI FHIR server
+- PACS: DICOMweb adapter (DICOM C-STORE → Orthanc) + OHIF Viewer for zero-install remote viewing
+- Pharmacy: FHIR MedicationRequest resources bi-directionally synced with Meditech/JAC via HL7 v2 pharmacy messages
+- Analytics: AWS Glue ETL job exports FHIR data to Snowflake nightly; Tableau connects for dashboarding
+- Security: OAuth 2.0 / SMART on FHIR for authentication; all data encrypted at rest (AES-256) and in transit (TLS 1.3); GDPR and NHS DSP Toolkit compliant
+
+Result:
+- Clinician time wasted on system-switching: Reduced from 2.1 hours/day to 18 minutes/day
+- Patient referral time: Reduced from 3–5 business days to 4 hours (electronic FHIR referrals)
+- Radiology remote access: 100% of scans now viewable from any MediLink site within 60 seconds of acquisition
+- Duplicate prescription incidents: Zero in the 18 months post-deployment (previously averaging 1.8/month)
+- NHS compliance reporting: Fully automated; £2.3M annual consultant cost eliminated
+- Patient satisfaction score (Friends & Family Test): Improved from 71% to 89%
+- System uptime: 99.97% across 18 months (HA architecture on AWS with multi-AZ failover)
+
+Timeline: 18 months (5 phases: FHIR backbone → EHR integration → PACS → Pharmacy safety → Analytics)
+Team Size: 22 engineers (4 HL7/FHIR specialists, 4 backend, 3 frontend, 2 data engineers, 2 DevOps, 1 security architect, 2 QA, 1 clinical informatics advisor, 2 PMs, 1 solution architect)
+Compliance: GDPR, NHS DSP Toolkit, ISO 27001, CQC-aligned clinical governance

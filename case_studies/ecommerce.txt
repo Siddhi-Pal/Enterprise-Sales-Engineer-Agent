@@ -1,0 +1,37 @@
+Company: UrbanCart Retail Group
+Industry: E-Commerce / Omnichannel Retail
+Region: Southeast Asia (Singapore HQ, operations in 8 countries)
+
+Problem:
+UrbanCart operated across 8 countries with separate e-commerce platforms per country, each running on different versions of Magento (some 1.x, some 2.x) with no shared inventory system. This led to severe overselling events during flash sales — in one incident, 14,000 units of a product were sold despite only 3,200 being in stock. Customer service costs were sky-high because order status data was siloed per country. The data team spent 60% of their time just merging country-level data for executive reports. Their recommendation engine was a simple "bestsellers" list with no personalization, leading to poor conversion rates (1.1%) versus industry average of 3.2%. Additionally, their checkout flow had a 73% drop-off rate on mobile.
+
+Tech Stack (Before):
+- E-commerce platforms: Magento 1.9 (4 countries), Magento 2.3 (4 countries)
+- Inventory: Per-country spreadsheets + basic ERP (SAP B1)
+- Search: Magento native search (no Elasticsearch)
+- Recommendation engine: Static "top sellers" SQL query
+- Customer data: Separate CRM per country (Salesforce in 3, Zoho in 5)
+- Mobile app: Legacy React Native app (v0.59), no performance optimization
+- Analytics: Google Analytics + manual country-level reports
+
+Solution:
+We built a unified commerce platform on a headless architecture. The front end was re-built using Next.js with a React storefront, consuming a unified GraphQL API layer (powered by Hasura) that abstracted all backend systems. Inventory management was centralized in a real-time inventory service built on Python + PostgreSQL + Redis, with bi-directional sync to SAP B1 via custom connectors. Elasticsearch was deployed for product search with ML-based relevance ranking. A personalized recommendation engine was built on collaborative filtering (Python/Scikit-learn) trained on 18 months of cross-country purchase data, served via a FastAPI microservice. All customer data was unified in a Customer Data Platform (CDP) using Segment, connected to a single Salesforce instance. The mobile app was rebuilt in React Native 0.72 with lazy loading, image optimization, and a streamlined 3-step checkout flow.
+
+Integration Strategy:
+- Magento (all versions) → Headless via REST API adapters for product/order data
+- SAP B1 ↔ Unified Inventory Service: Custom Python middleware via SAP B1 Service Layer API
+- CRM unification: Segment CDP as the single source of truth; Zoho/Salesforce data migrated via custom ETL
+- Search: Elasticsearch synchronized via Magento event webhooks + Kafka consumer
+- Analytics: All events streamed to BigQuery via Segment; Looker dashboards replace manual reports
+
+Result:
+- Overselling incidents: Eliminated (real-time inventory lock with optimistic concurrency)
+- Conversion rate: Increased from 1.1% to 3.8% (personalized recommendations driving 28% of revenue)
+- Mobile checkout drop-off: Reduced from 73% to 29%
+- Executive reporting: Automated in real time (60% analyst time freed)
+- Customer service ticket volume: Down 41% (unified order tracking across countries)
+- Flash sale capacity: Successfully handled 250,000 concurrent users (previously crashed at 40,000)
+- Search-to-purchase conversion: Improved by 3.1x with Elasticsearch + ML ranking
+
+Timeline: 14 months (4 phases: Inventory → Search/Rec → Headless commerce → Mobile)
+Team Size: 18 engineers (5 full-stack, 3 backend, 2 ML, 2 DevOps, 2 data engineers, 1 mobile, 1 architect, 2 PMs)

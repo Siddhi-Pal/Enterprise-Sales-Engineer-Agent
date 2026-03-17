@@ -1,0 +1,40 @@
+Client Discovery Call — FinArc Payments Ltd.
+Date: March 17, 2026
+Attendees:
+  - Raj Mehta, CTO — FinArc Payments
+  - Priya Sharma, Head of Engineering — FinArc Payments
+  - David Collins, VP Product — FinArc Payments
+  - [Sales Engineer] — Enterprise Integration Team
+
+---
+
+[Sales Engineer]: Thanks for making time today, Raj. Can you walk us through what's going on with your current platform and what's been driving the most pain for your team?
+
+Raj Mehta: Absolutely. So we're a digital lending and payments company, and we've been around for about 8 years now. The problem is that our core infrastructure hasn't really kept pace with our growth. We're running a legacy monolith built on PHP 7, sitting on top of a MySQL database that was never designed to handle the kind of transaction volumes we're seeing today. On our peak days — end of month when loan disbursements go out — the system just falls over. We're seeing failure rates of around 15% on payment processing. That's completely unacceptable.
+
+Priya Sharma: And it's not just the failure rate. The recovery time is terrible. When something goes wrong, our engineering team has to manually intervene because there's no proper retry mechanism, no dead-letter queue, nothing. It's all very fragile.
+
+[Sales Engineer]: What does your current stack look like end to end?
+
+Priya Sharma: So the core lending engine is the PHP monolith I mentioned. We use MySQL on-premise, no read replicas, no sharding. For the payment gateway integration, we have direct API calls to three different providers — Razorpay, PayU, and a banking partner — but there's no abstraction layer, so each is hardcoded separately. Our fraud detection is literally a set of SQL rules that run on every transaction. It's embarrassing, honestly. We have a Redis instance that we use for sessions but not for anything intelligent. No message queue at all. Everything is synchronous.
+
+David Collins: From a product perspective, the biggest frustration is that we can't move fast. Every time we want to add a new payment provider or change a rule, it takes 3 to 4 weeks because everything is so tightly coupled. One change breaks five other things.
+
+[Sales Engineer]: What's your timeline pressure looking like? And have there been any conversations internally about budget?
+
+Raj Mehta: We have a board commitment to hit 500,000 daily active transactions by Q4 2026. Right now we can barely sustain 40,000 without degrading. The budget conversation has been approved — we're looking at roughly ₹5 Crore to ₹6.5 Crore for this transformation. We need something that can scale horizontally, has proper event-driven architecture, and gives us real-time fraud detection instead of these SQL rules.
+
+Priya Sharma: We also have a regulatory deadline. RBI is mandating enhanced transaction audit trails by September 2026. Our current system has no audit logging whatsoever. That alone is keeping me up at night.
+
+[Sales Engineer]: Have you had any conversations around cloud strategy?
+
+Raj Mehta: We're open to AWS or GCP. We've been on-prem up to this point but there's full executive buy-in to move to cloud. We just need someone to design the migration properly — we can't afford downtime during the migration. We process about $2 million in transactions daily right now.
+
+David Collins: The decision maker here is Raj for the technical side, and our CEO Anita Rao has signed off on the budget. She wants to see a shortlist of vendors with a concrete architecture proposal by end of April.
+
+[Sales Engineer]: That's very helpful. We've helped several fintech companies solve exactly this kind of challenge — legacy monolith to event-driven microservices, real-time fraud ML, and multi-provider payment gateway abstraction. We'll put together a tailored architecture proposal for you.
+
+Raj Mehta: Great. Looking forward to it.
+
+---
+[End of Call]

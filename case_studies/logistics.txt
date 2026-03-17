@@ -1,0 +1,38 @@
+Company: ShipSmart India Logistics Pvt. Ltd.
+Industry: Logistics & Supply Chain
+Region: India (Pan-India operations)
+
+Problem:
+ShipSmart, a mid-sized third-party logistics (3PL) provider operating across 22 states in India, faced severe operational inefficiencies. Their warehouse management ran on a 12-year-old desktop WMS with no API interfaces, making real-time tracking impossible. Shipment status updates were manually entered by warehouse staff and communicated via WhatsApp groups, leading to a 23% error rate in delivery status. Route optimisation was done manually by dispatchers, inflating fuel costs by an estimated ₹4.2 Crore annually. Customer-facing tracking was a static page that refreshed every 6 hours. With 85,000 shipments per month and growing, the system was breaking. Driver attrition was high due to inefficient route assignments, and 3 major enterprise clients threatened to leave due to SLA violations.
+
+Tech Stack (Before):
+- WMS: Legacy desktop WMS (Access DB backend, Windows Forms UI)
+- Communication: WhatsApp Business + manual call centre
+- GPS tracking: Standalone SIM-based GPS devices with no integration
+- Route planning: Manual dispatcher decisions using Google Maps
+- Customer portal: Static PHP website with MySQL
+- ERP: Tally ERP 9 (no API)
+- Reporting: Manual Excel sheets shared over email
+
+Solution:
+We designed and built a cloud-native logistics intelligence platform on AWS (Mumbai region) with full API integration. The legacy WMS was replaced by a custom microservices WMS built on Node.js and PostgreSQL, with a React Native mobile app for warehouse staff. Real-time GPS data was ingested via AWS IoT Core from upgraded 4G GPS devices fitted to all 340 vehicles, feeding a live tracking dashboard on Apache Kafka + TimescaleDB. Route optimisation was implemented using Google OR-Tools and OpenRouteService, reducing average route distance by 18%. A customer-facing shipment tracking portal was built on Next.js with real-time WebSocket updates, delivering sub-30-second status refresh. The Tally ERP was connected via a custom REST adapter using Tally's XML gateway, enabling automated invoice reconciliation. A driver app built in React Native replaced WhatsApp communication for pickup/delivery confirmation with digital POD (photo + OTP).
+
+Integration Strategy:
+- Legacy WMS: Exported data migrated to PostgreSQL via ETL pipeline (Python + Pandas); old system sunset over 6 weeks
+- GPS integration: MQTT over AWS IoT Core; Kafka consumer writes to TimescaleDB for historical analytics
+- Tally ERP: Custom XML-REST adapter with daily 2-way sync for invoice data
+- SMS/WhatsApp alerts: Integrated with Gupshup API for automated customer notifications
+- Monitoring: AWS CloudWatch + Grafana for fleet and operations dashboards
+
+Result:
+- Delivery status error rate reduced from 23% to 1.1%
+- Route optimisation reduced fuel costs by ₹2.9 Crore annually (69% of target savings)
+- Customer tracking refresh improved from 6 hours to under 30 seconds
+- SLA compliance improved from 71% to 96.4%
+- Driver app adoption reached 94% within 8 weeks of rollout
+- 3 enterprise clients renewed contracts and signed expansion agreements
+- System now supports 1.5 lakh shipments/month (scalable to 5 lakh)
+
+Timeline: 7 months (Phase 1: WMS + Driver App; Phase 2: GPS + Route Optimisation; Phase 3: Customer Portal + ERP integration)
+Team Size: 10 engineers (3 backend, 2 frontend/mobile, 1 DevOps, 1 data engineer, 1 IoT specialist, 1 architect, 1 PM)
+Budget: ₹3.8 Crore (total engagement)

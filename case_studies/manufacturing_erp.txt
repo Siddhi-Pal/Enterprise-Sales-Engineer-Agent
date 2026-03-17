@@ -1,0 +1,38 @@
+Company: PrecisionForge Industries Ltd.
+Industry: Manufacturing / Industrial ERP
+Region: India (Pune, Maharashtra)
+
+Problem:
+PrecisionForge, a Tier-1 auto components manufacturer supplying to Tata Motors, Mahindra, and Bajaj Auto, operated on a 15-year-old SAP ECC 6.0 system that was heavily customised with ABAP code that no one fully understood. The system had 47 custom Z-transactions added over the years, causing upgrade paralysis. Shop floor data was collected on paper sheets and entered into SAP by data entry operators 8 hours after the fact — meaning production managers made decisions on yesterday's data. Machine downtime averaged 340 hours/month with no predictive maintenance capability whatever. Quality inspection results from 6 CMM (Coordinate Measuring Machines) were stored in isolated islands with no integration to the ERP. OEM customers (Tata, Mahindra) were demanding EDI integration for purchase orders and delivery schedules by Q3 2025, which PrecisionForge could not support. Inventory accuracy was at 74%, leading to production stoppages when components were theoretically available in SAP but physically missing.
+
+Tech Stack (Before):
+- ERP: SAP ECC 6.0 (heavily customised, 47 Z-transactions)
+- MES: None (manual paper-based shop floor data collection)
+- Quality: Standalone Zeiss CMM software (isolated, no integration)
+- Maintenance: Manual checklists in paper registers
+- OEM connectivity: Email + PDF exchange (no EDI)
+- Reporting: SAP standard reports + Excel exports
+- Infrastructure: On-premise servers (EOL hardware, 2009 vintage)
+
+Solution:
+We executed a phased S/4HANA migration programme alongside a custom MES (Manufacturing Execution System) layer. The SAP ECC to S/4HANA migration was performed using SAP's Selective Data Transition approach, retaining critical Z-transactions only where unavoidable and replacing 38 of 47 with standard S/4 functionality. A lightweight MES was built on Node.js with a React dashboard, deployed on industrial panel PCs on the shop floor via offline-capable PWA (Progressive Web App), providing real-time production tracking with 15-second data refresh. Machine connectivity was achieved via OPC-UA adapters on CNC machines feeding a time-series database (InfluxDB), enabling predictive maintenance using isolation forest anomaly detection (Python/scikit-learn). CMM quality data was integrated via a custom parser ingesting Zeiss QC results into SAP QM module in real time using RFC calls. EDI integration for Tata Motors and Mahindra was built using SEEBURGER Business Integration Suite on AWS, supporting EDIFACT and ANSI X12 standards. RFID scanners were deployed across the warehouse floor for real-time inventory tracking integrated with SAP WM/EWM.
+
+Integration Strategy:
+- SAP S/4HANA ↔ MES: SAP Integration Suite (CPI) with OData APIs for production orders and confirmations
+- OPC-UA machine data: Custom collector → InfluxDB → Grafana for real-time machine dashboards
+- CMM quality integration: Python parser → SAP RFC via PyRFC library → QM inspection lots
+- EDI: SEEBURGER BIS → AS2 transport to OEM systems → SAP MM/SD posting
+- RFID → SAP WM: LLRP protocol adapter → middleware → SAP BAPI calls for goods movements
+
+Result:
+- Shop floor data latency reduced from 8 hours to real-time (15-second refresh)
+- Machine downtime reduced from 340 hours/month to 89 hours/month (predictive maintenance)
+- Inventory accuracy improved from 74% to 98.6%
+- EDI onboarding completed for Tata Motors and Mahindra; 2 additional OEMs in progress
+- Quality defect escape rate reduced by 61% (real-time CMM integration)
+- SAP upgrade path now clear: S/4HANA running on Azure with annual upgrade cycle
+- Production planning accuracy improved by 28% due to real-time shop floor visibility
+
+Timeline: 14 months (Phase 1: S/4HANA migration; Phase 2: MES + machine connectivity; Phase 3: EDI + quality integration)
+Team Size: 16 engineers (5 SAP consultants, 3 MES/IoT engineers, 2 data engineers, 2 integration specialists, 1 DevOps, 1 architect, 1 PM, 1 change manager)
+Budget: ₹18 Crore (total engagement including SAP licences)

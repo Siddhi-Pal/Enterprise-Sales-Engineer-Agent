@@ -1,0 +1,34 @@
+Client Discovery Call — TrendBazaar Group
+Date: March 17, 2026
+Attendees:
+  - Aisha Kapoor, CEO — TrendBazaar Group
+  - Sanjay Menon, CTO — TrendBazaar Group
+  - Fatima Yousuf, Head of Digital Commerce — TrendBazaar Group
+  - [Sales Engineer] — Enterprise Integration Team
+
+---
+
+[Sales Engineer]: Thank you all for joining. Aisha, can you give us a sense of where TrendBazaar is right now and what problem you're trying to solve?
+
+Aisha Kapoor: Sure. TrendBazaar is a fashion and lifestyle e-commerce group. We operate in 6 countries across the Middle East and South Asia — UAE, Saudi Arabia, India, Pakistan, Bangladesh, and Kuwait. Our combined GMV last year was about $180 million. The problem is that we can't grow at the rate we want to because our platform is falling apart at the seams.
+
+Sanjay Menon: To be more specific — we're running a Magento 2.4 instance for each country. Six separate Magento installations, each with their own database, their own customizations, their own product catalog, and their own inventory. There is no central inventory system. The result is that overselling is a constant problem. During our Ramadan sale last year, we oversold a product by 8,000 units because three country stores were all drawing from what they thought was separate stock, but the supplier had already allocated it elsewhere. It was a customer service disaster.
+
+[Sales Engineer]: What does your current tech stack look like beyond Magento?
+
+Sanjay Menon: So we have the six Magento 2.4 installations. Each has its own MySQL database. We're using Magento's native search — no Elasticsearch — which means search is slow and irrelevant. Our recommendation engine is just Magento's built-in "related products" feature, which is basically nothing. We have no personalization at all. For customer data we have three different CRM tools — Zoho in some countries, Salesforce in the GCC. They don't sync. Our mobile app is a 3-year-old React Native app that hasn't been updated and has a checkout abandonment rate on mobile of about 68%.
+
+Fatima Yousuf: And from a marketing perspective, I can't run a proper campaign because I have no unified view of the customer. If a customer buys in UAE and then tries to log in on the Saudi site, they have to create a new account. No cross-border loyalty, no unified cart, nothing. Our conversion rate is 1.3% — industry benchmark for fashion is 2.5 to 3%. We're leaving a huge amount of money on the table.
+
+[Sales Engineer]: What's driving the urgency right now?
+
+Aisha Kapoor: We're raising a Series B round in Q3 2026. Investors are going to look at our tech infrastructure and our unit economics. I need to be able to show a scalable, modern platform — not six fragmented Magento sites that keep catching fire. And frankly, our biggest flash sale of the year, the Eid collection launch, is in May. Last year the site went down for 2 hours during peak. I cannot let that happen again.
+
+Sanjay Menon: Budget is approximately ₹7.5 Crore to ₹10 Crore. We want a headless commerce architecture — we've been doing our research — with a unified inventory layer and a proper personalization engine. Timeline is aggressive: we need a stable platform before the May sale, which gives us about 7 weeks for phase one. Full migration by September.
+
+[Sales Engineer]: This is very much in our wheelhouse. We've done headless commerce transformations with unified inventory, Elasticsearch-powered search, and ML-based recommendation engines for similar multi-country retailers. The May deadline is tight but achievable for a scoped phase one.
+
+Aisha Kapoor: Excellent. The decision is mine and Sanjay's. We'd like to see a proposal including a phase-one scope for May, a full roadmap, and references from comparable projects.
+
+---
+[End of Call]

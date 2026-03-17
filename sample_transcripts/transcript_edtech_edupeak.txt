@@ -1,0 +1,34 @@
+Client Meeting Transcript
+Company: EduPeak Learning Technologies Pvt. Ltd.
+Meeting Type: Sales Discovery Call
+Participants: Sneha Agarwal (Founder & CEO, EduPeak), Rohan Desai (CTO, EduPeak), [Sales Engineer]
+
+---
+
+[Sales Engineer]: Great to connect. I'd love to start by understanding where EduPeak is today — your scale, your users, and what's giving you the most trouble.
+
+Sneha Agarwal: We started as a test-prep platform for engineering and medical entrance exams. We now have around 500,000 registered learners, and we've expanded into corporate upskilling — we have B2B contracts with 40 companies, covering about 35,000 professional learners. The growth has been exciting, but our platform is genuinely struggling to keep up.
+
+Rohan Desai: From a technical standpoint, the system was built for maybe 50,000 users. We're at ten times that, and it shows. Our backend is a Django monolith running on two EC2 instances behind a load balancer. The database is a single PostgreSQL instance — no read replicas, no sharding. During our live mock test events, where 80,000 to 100,000 students take a simultaneous exam, the platform goes down or becomes extremely slow. We had a complete outage last month during a JEE mock test. That was a PR disaster.
+
+[Sales Engineer]: What else is not working?
+
+Rohan Desai: Video classes are a major pain point. We deliver them via direct S3 links — no CDN, no adaptive streaming. Students in smaller cities, places like Patna, Jalgaon, Nagpur — they get terrible buffering. We've been getting complaints for over a year but we haven't had the bandwidth to fix it. Our live class experience is completely built on Zoom with a custom booking layer on top, but there's nothing proprietary — if Zoom changes pricing or API terms, we're stuck.
+
+Sneha Agarwal: The corporate side adds another layer of complexity. Our B2B clients need individual learner progress reports, completion certificates, and integration with their HR systems — most of them use SAP SuccessFactors or Darwinbox. We're generating reports manually in Excel and emailing them monthly. Two clients have already told us this is not acceptable and they'll leave if there's no API integration by Q3 this year.
+
+[Sales Engineer]: How is course discovery and recommendation working today?
+
+Rohan Desai: It's not, honestly. There's a homepage with featured courses chosen manually by the content team. There's no personalisation. A student who just failed a Physics test gets the same homepage as someone who's been on the platform for 6 months and is halfway through an advanced course. We know this hurts engagement — our 60-day retention is around 34%, which is genuinely bad for this category.
+
+[Sales Engineer]: Payment infrastructure — how are you handling that?
+
+Rohan Desai: We have Razorpay and Cashfree integrated, but the code is quite old and we've had recurring issues with webhook failures. We don't handle subscription billing properly — it's a cron job that runs at midnight and there are known edge cases around month-end and payment failures that result in either students being locked out who've paid, or students retaining access after lapsing.
+
+Sneha Agarwal: We're raising a Series B in six months and investors will absolutely look at our technical infrastructure, our retention metrics, and our B2B integration capability. I need the platform to be in a credible state before that.
+
+[Sales Engineer]: What's your ideal outcome and what's the timeline?
+
+Sneha Agarwal: A stable platform that doesn't crash during peak exam events. Proper video delivery. An API for B2B clients. Personalised recommendations. And a billing system that just works. We'd like the most critical pieces — stability, video, and B2B API — live within 4 months. Full personalisation and billing overhaul within 8 months.
+
+Rohan Desai: Budget is ₹6 Crore to ₹7.5 Crore. Decision makers are myself on the technical side and Sneha on business approval. Our lead investor Sanjay Puri from Elevation Capital will also want to review the architecture proposal as part of their due diligence.

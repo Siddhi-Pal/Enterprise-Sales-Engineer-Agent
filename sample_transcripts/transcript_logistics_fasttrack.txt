@@ -1,0 +1,38 @@
+Client Meeting Transcript
+Company: FastTrack Freight Solutions Pvt. Ltd.
+Meeting Type: Sales Discovery Call
+Participants: Vikram Nair (COO, FastTrack), Meera Pillai (Head of Technology, FastTrack), [Sales Engineer]
+
+---
+
+[Sales Engineer]: Thank you both for making time. I've been looking forward to this conversation. Could you start by giving me a sense of what's going on operationally at FastTrack right now?
+
+Vikram Nair: Sure. We've been in the logistics business for 14 years. We operate across 18 states, manage around 70,000 shipments per month, and we have a fleet of 280 trucks plus a large third-party carrier network. On paper, we look fine. In practice, our operations are a mess because our systems haven't kept pace with our growth.
+
+Meera Pillai: The core problem is visibility — or rather, the total lack of it. Our warehouse management system is from 2011. It runs on an on-premise server in our head office in Chennai. It has no APIs, no mobile access, nothing. All shipment status updates are entered manually by warehouse staff. Our dispatchers communicate with drivers over phone calls and WhatsApp. Customers call our support line asking where their shipment is, and our staff genuinely don't know in real time.
+
+[Sales Engineer]: So there's no real-time tracking at all?
+
+Vikram Nair: Nothing meaningful. We have GPS devices on the trucks but they feed into a separate vendor's portal that has no integration with our WMS or our customer portal. Our customer-facing tracking page shows a status that was last updated 4 to 6 hours ago. We've had three major enterprise clients scale back their business with us in the last six months citing exactly this issue.
+
+Meera Pillai: The other major pain point is route planning. Our dispatchers essentially plan routes manually using Google Maps on their phones. We have no optimization. We're spending an estimated ₹3.5 to ₹4 Crore a year on excess fuel costs alone because of inefficient routing.
+
+[Sales Engineer]: What does your tech stack look like across the board?
+
+Meera Pillai: For warehouse management, the old on-premise system I mentioned — it runs on Windows Server 2008, Access database backend. For ERP and billing, we use Tally Prime. For communication with drivers, WhatsApp plus phone calls. Our GPS vendor is MapMyIndia but their platform is standalone. Customer portal is a static website we had built in 2019 — a PHP site with a MySQL database. It shows status updates via a batch script that runs every few hours.
+
+[Sales Engineer]: Any compliance or regulatory pressures you're facing?
+
+Vikram Nair: Yes — we carry pharmaceutical shipments for three clients, and the new Drugs Controller guidelines require temperature-controlled shipment logs and chain-of-custody documentation. We currently have zero capability to provide that digitally. That's a ₹1.2 Crore annual contract that's at risk.
+
+[Sales Engineer]: What does success look like for you in 12 months?
+
+Meera Pillai: Real-time shipment visibility for our operations team and customers. Route optimisation that actually runs off algorithms, not dispatcher intuition. Driver app so our fleet communicates in one place. Integration between our WMS, GPS, and Tally. And ideally a live dashboard for our enterprise clients to track their shipments themselves.
+
+Vikram Nair: And we need the pharmaceutical clients retained. That means temperature logging and digital chain-of-custody documentation.
+
+[Sales Engineer]: What's your timeline and budget?
+
+Vikram Nair: We want something live for the fleet management and tracking within 3 months — that's our critical window before the pharma contract renewal. Full system integration within 8 months. Budget has been approved at ₹4 Crore to ₹5 Crore for the full platform build.
+
+Meera Pillai: The key stakeholders are myself for technical decisions, Vikram for business approval, and our MD Rajeev Krishnamurthy who will sign off on the final contract. He'll want a proof-of-concept for the real-time tracking before committing fully.

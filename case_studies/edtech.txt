@@ -1,0 +1,39 @@
+Company: LearnBridge EdTech Pvt. Ltd.
+Industry: EdTech / Online Education
+Region: India (B2C and B2B2C)
+
+Problem:
+LearnBridge, a fast-growing Indian EdTech platform with 800,000 registered learners and partnerships with 120 schools and colleges, was collapsing under its own growth. Their monolithic Django application (circa 2019) was deployed on a single EC2 instance and crashed on average twice a month during live class sessions. Video streaming used plain MP4 delivery via S3 without a CDN, causing buffering for students in Tier 2/3 cities on slower connections. The recommendation engine for course suggestions was a manually maintained spreadsheet updated weekly by the content team. Assessment results took up to 4 hours to be processed and shown to students after submission. Payment integrations for 4 gateways (Razorpay, PayU, CCAvenue, Instamojo) were hand-coded separately with no unified abstraction, causing 14% payment failure rates. The school/college dashboard for tracking student progress was refreshed manually once per day via a cron job.
+
+Tech Stack (Before):
+- Backend: Django 2.2 monolith on single AWS EC2 (t3.large)
+- Video delivery: S3 direct links (no CDN, no adaptive bitrate)
+- Database: PostgreSQL 10 (single instance, no read replicas)
+- Frontend: Server-side rendered Django templates
+- Live classes: Zoom embedded (no custom integration)
+- Payments: 4 separate payment gateway SDKs, manually integrated
+- Notifications: Manual email via SMTP; no push notifications
+- Analytics: Google Analytics only
+
+Solution:
+We re-architected LearnBridge onto a scalable microservices platform on AWS. The Django monolith was decomposed into 8 services: Auth, Courses, Assessments, Payments, Notifications, Live Classes, Analytics, and Recommendations — each independently deployable on ECS Fargate. Video delivery was migrated to AWS MediaConvert (for adaptive HLS encoding) + CloudFront CDN, reducing buffering by 91% in Tier 2/3 cities. A unified payment abstraction layer was built in Python, wrapping all 4 gateways behind a single interface with automatic retry and fallback logic. The recommendation engine was rebuilt as an ML service using collaborative filtering on TensorFlow, trained on clickstream data collected via Amazon Kinesis. Real-time assessment processing was implemented using AWS SQS + Lambda workers, reducing result delivery from 4 hours to under 90 seconds. A WebSocket-based live dashboard for schools was built on Next.js + Pusher, giving real-time student progress data. Push notifications were enabled via Firebase Cloud Messaging (FCM).
+
+Integration Strategy:
+- Zeego/Agora SDK integration for custom live class experience replacing Zoom dependency
+- Payment gateway abstraction: Strategy pattern in Python; Redis-based idempotency keys for de-duplication
+- Data pipeline: Kinesis Firehose → S3 → Glue → Redshift for analytics
+- School dashboard: REST API + Pusher Channels for real-time push events
+- B2B school portal: SAML 2.0 SSO integration with school identity providers
+
+Result:
+- Platform uptime improved from 97.1% to 99.95%
+- Video buffering in Tier 2/3 cities reduced by 91%
+- Payment failure rate reduced from 14% to 2.3%
+- Assessment result delivery: 4 hours → under 90 seconds
+- Course completion rates improved by 34% after ML recommendation engine launch
+- School dashboard real-time: daily batch reports replaced with live updates
+- Platform now handles 80,000 concurrent users during live exam events
+
+Timeline: 8 months (Phased decomposition: Core services → Video & Streaming → ML & Analytics)
+Team Size: 13 engineers (4 backend, 2 frontend, 2 mobile, 1 ML engineer, 1 data engineer, 1 DevOps, 1 architect, 1 PM)
+Budget: ₹5.2 Crore (total engagement)
