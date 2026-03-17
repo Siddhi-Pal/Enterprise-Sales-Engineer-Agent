@@ -10,7 +10,7 @@
 
 **An AI-powered Sales Engineer Agent that transforms client meeting transcripts into professional, board-ready Solution Design Documents — in under 60 seconds.**
 
-[Live Demo](#deployment) · [Architecture](#system-architecture) · [Setup Guide](#local-setup) · [Sample Transcripts](#sample-transcripts)
+[Architecture](#system-architecture) · [Setup Guide](#local-setup) · [Sample Transcripts](#sample-transcripts)
 
 </div>
 
@@ -197,19 +197,6 @@ Open [http://localhost:8501](http://localhost:8501) in your browser.
 2. Click **🚀 Generate Solution Design Document**
 3. Review the **Client Analysis** and **Solution Document** tabs
 4. Download the generated `.md` or `.txt` document
-
----
-
-## Deployment on Streamlit Cloud
-
-1. Push this repository to your GitHub account
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Click **New app** → select your repo → set **Main file path** to `sales_engineer_agent/app.py`
-4. Click **Advanced settings → Secrets** → paste:
-   ```toml
-   GROQ_API_KEY = "gsk_your_key_here"
-   ```
-5. Click **Deploy** — your app will be live in ~2 minutes
 
 ---
 
