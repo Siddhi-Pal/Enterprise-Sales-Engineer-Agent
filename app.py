@@ -30,6 +30,12 @@ def get_api_key() -> str:
     return os.environ.get("GROQ_API_KEY", "")
 
 
+@st.cache_resource
+def get_rag_system():
+    """Cache the RAGSystem so the embedding model isn't reloaded every time."""
+    return RAGSystem()
+
+
 # ─── Page Config ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Enterprise Solution Architect AI",
@@ -428,7 +434,7 @@ if api_key and uploaded_file:
             # Step 2
             progress.progress(40, text="🔎 Searching knowledge base for relevant case studies…")
             with st.spinner("Retrieving most relevant case study…"):
-                rag = RAGSystem()
+                rag = get_rag_system()
                 retrieval_query = rag.build_retrieval_query(insights_dict)
                 retrieved_case_study = rag.retrieve_relevant_case_study(retrieval_query, top_k=1)
             progress.progress(66, text="✅ Case study matched")
